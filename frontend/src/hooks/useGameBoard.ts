@@ -99,6 +99,7 @@ const useGameBoard = (initialDifficulty: Difficulty) => {
   const [board, setBoard] = useState<Array<Array<number | null>>>(() => {
     return createAndInitializeBoard(selectedColorIndexes); // 共通関数で盤面を生成・初期化
   });
+
   // 手数を管理
   const [moves, setMoves] = useState(0);
   // 選択中のセルを管理
@@ -168,13 +169,9 @@ const useGameBoard = (initialDifficulty: Difficulty) => {
         const excessRatio = scoreRatio - 1.0;
         calculatedBonusMoves = Math.floor(excessRatio ** 0.1 * 3);
       }
-      // ★ 上限を撤廃
       setBonusMoves(calculatedBonusMoves);
-      // ★ 難易度選択ではなく、ステージクリアモーダルを表示
       setGameState("stageClear");
-      // 次のステージの目標計算はここで行う
       const nextStage = stage + 1;
-      // ★ 次のステージの目標計算 (calculateStageGoals は difficulty が必須になった)
       setNextStageGoals({
         easy: calculateStageGoals(nextStage, "easy"),
         medium: calculateStageGoals(nextStage, "medium"),
